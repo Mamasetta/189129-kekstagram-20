@@ -18,6 +18,11 @@ var COMMENTATORS_NAMES = [
   'Макс'
 ];
 
+var MIN = 0;
+var MIN_AVATAR = 1;
+var MAX_AVATAR = 6;
+var MAX_LIKES_NUMBER = 500;
+var MAX_COMMENTS_NUMBER = 10;
 var PICTURE_COUNT = 25;
 
 var getRandomInteger = function (min, max) {
@@ -26,7 +31,7 @@ var getRandomInteger = function (min, max) {
 };
 
 var getRandomElement = function (elements) {
-  return elements[getRandomInteger(0, elements.length - 1)];
+  return elements[getRandomInteger(MIN, elements.length - 1)];
 };
 
 var generateComments = function (count) {
@@ -34,7 +39,7 @@ var generateComments = function (count) {
 
   for (var i = 0; i <= count; i++) {
     comments.push({
-      avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
+      avatar: 'img/avatar-' + getRandomInteger(MIN_AVATAR, MAX_AVATAR) + '.svg',
       message: getRandomElement(MESSAGE_SENTENCES),
       name: getRandomElement(COMMENTATORS_NAMES)
     });
@@ -49,20 +54,19 @@ var generatePhotos = function () {
     photos.push({
       url: 'photos/' + i + '.jpg',
       description: 'описание',
-      likes: getRandomInteger(0, 500),
-      comments: generateComments(getRandomInteger(0, 10)),
+      likes: getRandomInteger(MIN, MAX_LIKES_NUMBER),
+      comments: generateComments(getRandomInteger(MIN, MAX_COMMENTS_NUMBER)),
     });
   }
   return photos;
 };
 var photos = generatePhotos();
-
-var renderPicture = function (pictureData) {
-  var template = document
+var template = document
   .querySelector('#picture')
   .content
   .querySelector('.picture');
 
+var renderPicture = function (pictureData) {
   var pictureElement = template.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = pictureData.url;
@@ -73,8 +77,10 @@ var renderPicture = function (pictureData) {
 };
 
 var picturesElement = document.querySelector('.pictures');
+var fragment = document.createDocumentFragment();
 
 for (var i = 0; i < photos.length; i++) {
-  picturesElement.appendChild(renderPicture(photos[i])
-  );
+  fragment.appendChild(renderPicture(photos[i]));
 }
+
+picturesElement.appendChild(fragment);
