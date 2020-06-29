@@ -297,6 +297,7 @@ var validateHashtag = function (value) {
 
 var onHashtagValidationInput = function (evt) {
   hashtag.setCustomValidity(validateHashtag(evt.target.value));
+  hashtag.reportValidity();
 };
 
 var onElementFocus = function () {
@@ -337,7 +338,7 @@ var closeUploadFile = function () {
   uploadFile.value = '';
 };
 
-uploadFile.addEventListener('checked', function (evt) {
+uploadFile.addEventListener('change', function (evt) {
   evt.preventDefault();
   openUploadFile();
 });
