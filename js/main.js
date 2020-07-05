@@ -26,7 +26,7 @@ var MAX_COMMENTS_NUMBER = 10;
 var PICTURE_COUNT = 25;
 
 var KeyCode = {
-  ENTER: 13,
+  ENTER: 'Enter',
   ESCAPE: 'Escape'
 };
 
@@ -174,9 +174,9 @@ picturesElement.addEventListener('click', function (evt) {
 });
 
 picturesElement.addEventListener('keydown', function (evt) {
-  if (evt.key === KeyCode.ENTER && evt.target.classList.contains('picture__img')) {
+  if (evt.key === KeyCode.ENTER && evt.target.classList.contains('picture')) {
     evt.preventDefault();
-    openUsersPicture(Number(evt.target.closest('.picture').dataset.id));
+    openUsersPicture(Number(evt.target.dataset.id));
   }
 });
 
@@ -388,13 +388,6 @@ var closeUploadFile = function () {
 uploadFile.addEventListener('change', function (evt) {
   evt.preventDefault();
   openUploadFile();
-});
-
-uploadFile.addEventListener('keydown', function (evt) {
-  if (evt.key === KeyCode.ENTER) {
-    evt.preventDefault();
-    openUploadFile();
-  }
 });
 
 uploadCancel.addEventListener('click', function () {
