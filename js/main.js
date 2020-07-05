@@ -25,6 +25,11 @@ var MAX_LIKES_NUMBER = 500;
 var MAX_COMMENTS_NUMBER = 10;
 var PICTURE_COUNT = 25;
 
+var KeyCode = {
+  ENTER: 13,
+  ESCAPE: 'Escape'
+};
+
 var getRandomInteger = function (min, max) {
   var rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
@@ -60,6 +65,7 @@ var generatePhotos = function () {
   }
   return photos;
 };
+
 var photos = generatePhotos();
 
 var pictureTemplate = document
@@ -67,22 +73,24 @@ var pictureTemplate = document
   .content
   .querySelector('.picture');
 
-var createPicture = function (pictureData) {
+var createPicture = function (pictureData, pictureIndex) {
   var pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = pictureData.url;
   pictureElement.querySelector('.picture__likes').innerText = pictureData.likes;
   pictureElement.querySelector('.picture__comments').innerText = pictureData.comments.length;
+  pictureElement.dataset.id = pictureIndex;
 
   return pictureElement;
 };
 
+var picturesElement = document.querySelector('.pictures');
+
 var renderPictures = function () {
-  var picturesElement = document.querySelector('.pictures');
   var fragment = document.createDocumentFragment();
 
-  photos.forEach(function (photo) {
-    fragment.appendChild(createPicture(photo));
+  photos.forEach(function (photo, index) {
+    fragment.appendChild(createPicture(photo, index));
   });
 
   picturesElement.appendChild(fragment);
@@ -91,16 +99,6 @@ var renderPictures = function () {
 renderPictures();
 
 var bigPicture = document.querySelector('.big-picture');
-// bigPicture.classList.remove('hidden');
-
-var bigPictureImage = bigPicture.querySelector('.big-picture__img img');
-bigPictureImage.src = photos[0].url;
-
-var likesCount = bigPicture.querySelector('.likes-count');
-likesCount.textContent = photos[0].likes;
-
-var commentsCount = bigPicture.querySelector('.comments-count');
-commentsCount.textContent = photos[0].comments.length;
 
 var commentTemplate = document
     .querySelector('#comment')
@@ -139,17 +137,60 @@ socialCommentsCount.classList.add('hidden');
 var commentsLoader = document.querySelector('.comments-loader');
 commentsLoader.classList.add('hidden');
 
+var bigPictureCansel = bigPicture.querySelector('.big-picture__cancel');
+
+var onUsersPicturePopupEscPress = function (evt) {
+  if (evt.key === KeyCode.ESCAPE) {
+    evt.preventDefault();
+    closeUsersPicture();
+  }
+};
+
+var openUsersPicture = function (index) {
+
+  var bigPictureImage = bigPicture.querySelector('.big-picture__img img');
+  bigPictureImage.src = photos[index].url;
+
+  var likesCount = bigPicture.querySelector('.likes-count');
+  likesCount.textContent = photos[index].likes;
+
+  var commentsCount = bigPicture.querySelector('.comments-count');
+  commentsCount.textContent = photos[index].comments.length;
+
+  bigPicture.classList.remove('hidden');
+  document.addEventListener('keydown', onUsersPicturePopupEscPress);
+};
+
+var closeUsersPicture = function () {
+  bigPicture.classList.add('hidden');
+  document.removeEventListener('keydown', onUsersPicturePopupEscPress);
+};
+
+picturesElement.addEventListener('click', function (evt) {
+  if (evt.target.classList.contains('picture__img')) {
+    evt.preventDefault();
+    openUsersPicture(Number(evt.target.closest('.picture').dataset.id));
+  }
+});
+
+picturesElement.addEventListener('keydown', function (evt) {
+  if (evt.key === KeyCode.ENTER && evt.target.classList.contains('picture__img')) {
+    evt.preventDefault();
+    openUsersPicture(Number(evt.target.closest('.picture').dataset.id));
+  }
+});
+
+bigPictureCansel.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  closeUsersPicture();
+});
+
 var uploadFile = document.querySelector('#upload-file');
 var body = document.querySelector('body');
 var imageUploadOverlay = document.querySelector('.img-upload__overlay');
 var uploadCancel = document.querySelector('#upload-cancel');
 
-var KeyCode = {
-  ENTER: 13,
-  ESCAPE: 27
-};
-
-var onPopupEscPress = function (evt) {
+var onUploadFilePopupEscPress = function (evt) {
   if (evt.key === KeyCode.ESCAPE) {
     evt.preventDefault();
     closeUploadFile();
@@ -300,20 +341,24 @@ var onHashtagValidationInput = function (evt) {
   hashtag.reportValidity();
 };
 
-var onElementFocus = function () {
-  document.removeEventListener('keydown', onPopupEscPress);
+var description = imageUploadOverlay.querySelector('.text__description');
+
+var onUploadFileElementFocus = function () {
+  document.removeEventListener('keydown', onUploadFilePopupEscPress);
 };
 
-var onElementBlur = function () {
-  document.addEventListener('keydown', onPopupEscPress);
+var onUploadFileElementBlur = function () {
+  document.addEventListener('keydown', onUploadFilePopupEscPress);
 };
 
 var openUploadFile = function () {
   imageUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
-  document.addEventListener('keydown', onPopupEscPress);
-  hashtag.addEventListener('focus', onElementFocus);
-  hashtag.addEventListener('blur', onElementBlur);
+  document.addEventListener('keydown', onUploadFilePopupEscPress);
+  hashtag.addEventListener('focus', onUploadFileElementFocus);
+  hashtag.addEventListener('blur', onUploadFileElementBlur);
+  description.addEventListener('focus', onUploadFileElementFocus);
+  description.addEventListener('blur', onUploadFileElementBlur);
   resizePhoto();
   scaleControlSmaller.addEventListener('click', onScaleSmallerPress);
   scaleControlBigger.addEventListener('click', onScaleBiggerPress);
@@ -326,9 +371,11 @@ var openUploadFile = function () {
 var closeUploadFile = function () {
   imageUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onPopupEscPress);
-  hashtag.removeEventListener('focus', onElementFocus);
-  hashtag.removeEventListener('blur', onElementBlur);
+  document.removeEventListener('keydown', onUploadFilePopupEscPress);
+  hashtag.removeEventListener('focus', onUploadFileElementFocus);
+  hashtag.removeEventListener('blur', onUploadFileElementBlur);
+  description.removeEventListener('focus', onUploadFileElementFocus);
+  description.removeEventListener('blur', onUploadFileElementBlur);
   scaleControlSmaller.removeEventListener('click', onScaleSmallerPress);
   scaleControlBigger.removeEventListener('click', onScaleBiggerPress);
   imageUploadEffectLevel.classList.remove('hidden');
