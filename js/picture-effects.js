@@ -8,6 +8,8 @@
   var imageUploadEffectLevel = imageUploadOverlay.querySelector('.img-upload__effect-level');
   var effectLevelLine = imageUploadOverlay.querySelector('.effect-level__line');
 
+  var DEFAULT_VALUE = 1;
+
   var Scale = {
     STEP: 25,
     MIN: 25,
@@ -79,11 +81,11 @@
     } else {
       imageUploadEffectLevel.classList.add('hidden');
     }
-    imageUploadPreview.style.filter = selectEffect(1);
+    imageUploadPreview.style.filter = selectEffect(DEFAULT_VALUE);
   };
 
   var getSaturationValue = function (evt) {
-    return (evt.target.offsetLeft / effectLevelLine.offsetWidth).toFixed(2);
+    return (evt.target.offsetLeft / effectLevelLine.offsetWidth).toFixed();
   };
 
   var onSaturationChange = function (evt) {
