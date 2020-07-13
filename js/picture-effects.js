@@ -85,7 +85,7 @@
   };
 
   var getSaturationValue = function (evt) {
-    return (evt.target.offsetLeft / effectLevelLine.offsetWidth).toFixed();
+    return (evt.target.offsetLeft / effectLevelLine.offsetWidth).toFixed(2);
   };
 
   var onSaturationChange = function (evt) {
