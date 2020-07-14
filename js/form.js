@@ -42,7 +42,7 @@
     scaleControlBigger.addEventListener('click', window.pictureEffects.onScaleBiggerPress);
     imageUploadEffectLevel.classList.add('hidden');
     imageUploadEffectsContainer.addEventListener('change', window.pictureEffects.onEffectChange);
-    effectLevelPin.addEventListener('mouseup', window.pictureEffects.onSaturationChange);
+    effectLevelPin.addEventListener('mousedown', window.pinMoving.onPinMoveChangeEffect);
     hashtag.addEventListener('input', window.validationHashtag.onHashtagValidationInput);
   };
 
@@ -58,7 +58,7 @@
     scaleControlBigger.removeEventListener('click', window.pictureEffects.onScaleBiggerPress);
     imageUploadEffectLevel.classList.remove('hidden');
     imageUploadEffectsContainer.removeEventListener('change', window.pictureEffects.onEffectChange);
-    effectLevelPin.removeEventListener('mouseup', window.pictureEffects.onSaturationChange);
+    effectLevelPin.removeEventListener('mousedown', window.pinMoving.onPinMoveChangeEffect);
     hashtag.removeEventListener('input', window.validationHashtag.onHashtagValidationInput);
     uploadFile.value = '';
   };
