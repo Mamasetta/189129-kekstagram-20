@@ -16,11 +16,11 @@
     return commentElement;
   };
 
-  var renderComments = function () {
+  var renderComments = function (comments) {
     var commentsElement = document.querySelector('.social__comments');
     var fragment = document.createDocumentFragment();
 
-    window.usersPhotos.photos[0].comments.forEach(function (photoComment) {
+    comments.forEach(function (photoComment) {
       fragment.appendChild(createComment(photoComment));
     });
 

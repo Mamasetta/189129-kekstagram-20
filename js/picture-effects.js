@@ -6,6 +6,7 @@
   var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
   var imageUploadPreview = imageUploadOverlay.querySelector('.img-upload__preview img');
   var imageUploadEffectLevel = imageUploadOverlay.querySelector('.img-upload__effect-level');
+  var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelLine = imageUploadOverlay.querySelector('.effect-level__line');
 
   var DEFAULT_VALUE = 1;
@@ -84,12 +85,12 @@
     imageUploadPreview.style.filter = selectEffect(DEFAULT_VALUE);
   };
 
-  var getSaturationValue = function (evt) {
-    return (evt.target.offsetLeft / effectLevelLine.offsetWidth).toFixed(2);
+  var getSaturationValue = function (effectPin) {
+    return (effectPin.offsetLeft / effectLevelLine.offsetWidth).toFixed(2);
   };
 
-  var onSaturationChange = function (evt) {
-    var value = getSaturationValue(evt);
+  var onSaturationChange = function () {
+    var value = getSaturationValue(effectLevelPin);
     imageUploadPreview.style.filter = selectEffect(value);
   };
 

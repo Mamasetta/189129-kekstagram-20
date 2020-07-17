@@ -2,15 +2,13 @@
 
 (function () {
   var bigPicture = document.querySelector('.big-picture');
-
+  var commentsElement = document.querySelector('.social__comments');
   var socialCaption = document.querySelector('.social__caption');
-  socialCaption.textContent = window.usersPhotos.photos[0].description;
-
   var socialCommentsCount = document.querySelector('.social__comment-count');
-  socialCommentsCount.classList.add('hidden');
-
   var commentsLoader = document.querySelector('.comments-loader');
-  commentsLoader.classList.add('hidden');
+  var bigPictureImage = bigPicture.querySelector('.big-picture__img img');
+  var likesCount = bigPicture.querySelector('.likes-count');
+  var commentsCount = bigPicture.querySelector('.comments-count');
 
   var onUsersPicturePopupEscPress = function (evt) {
     if (evt.key === window.utils.Key.ESCAPE) {
@@ -19,15 +17,15 @@
     }
   };
 
-  var openUsersPicture = function (index) {
-    var bigPictureImage = bigPicture.querySelector('.big-picture__img img');
-    bigPictureImage.src = window.usersPhotos.photos[index].url;
+  var openUsersPicture = function (photo) {
+    socialCaption.textContent = photo.description;
+    socialCommentsCount.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
+    bigPictureImage.src = photo.url;
+    likesCount.textContent = photo.likes;
+    commentsCount.textContent = photo.comments.length;
 
-    var likesCount = bigPicture.querySelector('.likes-count');
-    likesCount.textContent = window.usersPhotos.photos[index].likes;
-
-    var commentsCount = bigPicture.querySelector('.comments-count');
-    commentsCount.textContent = window.usersPhotos.photos[index].comments.length;
+    window.usersComments.renderComments(photo.comments);
 
     bigPicture.classList.remove('hidden');
     document.addEventListener('keydown', onUsersPicturePopupEscPress);
@@ -35,6 +33,7 @@
 
   var closeUsersPicture = function () {
     bigPicture.classList.add('hidden');
+    commentsElement.innerText = '';
     document.removeEventListener('keydown', onUsersPicturePopupEscPress);
   };
 
