@@ -1,9 +1,13 @@
 'use strict';
 
 (function () {
-  var URL_LOAD = 'https://javascript.pages.academy/kekstagram/data';
-  var URL_UPLOAD = 'https://javascript.pages.academy/kekstagram';
   var TIMEOUT = 10000;
+
+  var Url = {
+    LOAD: 'https://javascript.pages.academy/kekstagram/data',
+    UPLOAD: 'https://javascript.pages.academy/kekstagram'
+  };
+
   var StatusCode = {
     OK: 200
   };
@@ -13,7 +17,7 @@
     load: function (onLoad, onError) {
       var xhr = new XMLHttpRequest();
 
-      xhr.open('GET', URL_LOAD);
+      xhr.open('GET', Url.LOAD);
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
@@ -38,7 +42,7 @@
     upload: function (data, onSend, onError) {
       var xhr = new XMLHttpRequest();
 
-      xhr.open('POST', URL_UPLOAD);
+      xhr.open('POST', Url.UPLOAD);
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {

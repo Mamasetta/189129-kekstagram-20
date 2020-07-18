@@ -2,7 +2,6 @@
 
 (function () {
   var uploadFile = document.querySelector('#upload-file');
-  var body = document.querySelector('body');
   var imageUploadOverlay = document.querySelector('.img-upload__overlay');
   var imageUploadScale = imageUploadOverlay.querySelector('.img-upload__scale');
   var scaleControlSmaller = imageUploadScale.querySelector('.scale__control--smaller');
@@ -11,6 +10,9 @@
   var imageUploadEffectLevel = imageUploadOverlay.querySelector('.img-upload__effect-level');
   var effectLevelPin = imageUploadOverlay.querySelector('.effect-level__pin');
   var hashtag = imageUploadOverlay.querySelector('.text__hashtags');
+  var description = imageUploadOverlay.querySelector('.text__description');
+  var effectNoneRadio = imageUploadOverlay.querySelector('#effect-none');
+  var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
 
   var onUploadFilePopupEscPress = function (evt) {
     if (evt.key === window.utils.Key.ESCAPE) {
@@ -18,8 +20,6 @@
       closeUploadFile();
     }
   };
-
-  var description = imageUploadOverlay.querySelector('.text__description');
 
   var onUploadFileElementFocus = function () {
     document.removeEventListener('keydown', onUploadFilePopupEscPress);
@@ -29,9 +29,17 @@
     document.addEventListener('keydown', onUploadFilePopupEscPress);
   };
 
+  var returnDefaultUploadFile = function () {
+    uploadFile.value = '';
+    effectNoneRadio.checked = true;
+    hashtag.value = '';
+    description.value = '';
+    scaleControlValue.value = window.pictureEffects.Scale.INITIAL + '%';
+  };
+
   var openUploadFile = function () {
     imageUploadOverlay.classList.remove('hidden');
-    body.classList.add('modal-open');
+    document.body.classList.add('modal-open');
     document.addEventListener('keydown', onUploadFilePopupEscPress);
     hashtag.addEventListener('focus', onUploadFileElementFocus);
     hashtag.addEventListener('blur', onUploadFileElementBlur);
@@ -48,7 +56,7 @@
 
   var closeUploadFile = function () {
     imageUploadOverlay.classList.add('hidden');
-    body.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', onUploadFilePopupEscPress);
     hashtag.removeEventListener('focus', onUploadFileElementFocus);
     hashtag.removeEventListener('blur', onUploadFileElementBlur);
@@ -60,10 +68,10 @@
     imageUploadEffectsContainer.removeEventListener('change', window.pictureEffects.onEffectChange);
     effectLevelPin.removeEventListener('mousedown', window.pinMoving.onPinMoveChangeEffect);
     hashtag.removeEventListener('input', window.validationHashtag.onHashtagValidationInput);
-    uploadFile.value = '';
   };
 
   window.form = {
+    returnDefaultUploadFile: returnDefaultUploadFile,
     openUploadFile: openUploadFile,
     closeUploadFile: closeUploadFile
   };

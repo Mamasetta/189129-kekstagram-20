@@ -6,6 +6,7 @@
   var bigPictureCansel = bigPicture.querySelector('.big-picture__cancel');
   var uploadFile = document.querySelector('#upload-file');
   var uploadCancel = document.querySelector('#upload-cancel');
+  var uploadForm = document.querySelector('#upload-select-image');
 
   window.backend.load(function (photos) {
     window.usersPhotos.renderPictures(photos);
@@ -37,11 +38,25 @@
 
   uploadCancel.addEventListener('click', function () {
     window.form.closeUploadFile();
+    window.form.returnDefaultUploadFile();
   });
 
   uploadCancel.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.Key.ENTER) {
       window.form.closeUploadFile();
+      window.form.returnDefaultUploadFile();
     }
+  });
+
+  uploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+
+    window.backend.upload(new FormData(uploadForm), function () {
+      window.form.closeUploadFile();
+      window.form.returnDefaultUploadFile();
+      window.statusMessages.createSuccessMessage();
+    }, function () {
+      window.statusMessages.createErrorMessage();
+    });
   });
 })();

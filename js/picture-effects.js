@@ -95,6 +95,7 @@
   };
 
   window.pictureEffects = {
+    Scale: Scale,
     resizePhoto: resizePhoto,
     onScaleSmallerPress: onScaleSmallerPress,
     onScaleBiggerPress: onScaleBiggerPress,
