@@ -1,18 +1,28 @@
 'use strict';
 
 (function () {
+  var DEFAULT_FILTER = 'none';
+  var DEFAULT_FILTER_POSITION_VALUE = 20;
+
   var uploadFile = document.querySelector('#upload-file');
   var imageUploadOverlay = document.querySelector('.img-upload__overlay');
+
   var imageUploadScale = imageUploadOverlay.querySelector('.img-upload__scale');
+  var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
   var scaleControlSmaller = imageUploadScale.querySelector('.scale__control--smaller');
   var scaleControlBigger = imageUploadScale.querySelector('.scale__control--bigger');
+
+  var imageUploadPreview = imageUploadOverlay.querySelector('.img-upload__preview img');
   var imageUploadEffectsContainer = imageUploadOverlay.querySelector('.img-upload__effects');
   var imageUploadEffectLevel = imageUploadOverlay.querySelector('.img-upload__effect-level');
+
   var effectLevelPin = imageUploadOverlay.querySelector('.effect-level__pin');
+  var effectLevelDepth = document.querySelector('.effect-level__depth');
+
+  var effectNoneRadio = imageUploadOverlay.querySelector('#effect-none');
+
   var hashtag = imageUploadOverlay.querySelector('.text__hashtags');
   var description = imageUploadOverlay.querySelector('.text__description');
-  var effectNoneRadio = imageUploadOverlay.querySelector('#effect-none');
-  var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
 
   var onUploadFilePopupEscPress = function (evt) {
     if (evt.key === window.utils.Key.ESCAPE) {
@@ -35,6 +45,11 @@
     hashtag.value = '';
     description.value = '';
     scaleControlValue.value = window.pictureEffects.Scale.INITIAL + '%';
+    imageUploadPreview.classList.add('effects__preview--none');
+    imageUploadPreview.style.transform = 'scale(' + window.pictureEffects.Scale.INITIAL * 0.01 + ')';
+    imageUploadPreview.style.filter = DEFAULT_FILTER;
+    effectLevelPin.style.left = DEFAULT_FILTER_POSITION_VALUE + '%';
+    effectLevelDepth.style.width = DEFAULT_FILTER_POSITION_VALUE + '%';
   };
 
   var openUploadFile = function () {
@@ -52,6 +67,8 @@
     imageUploadEffectsContainer.addEventListener('change', window.pictureEffects.onEffectChange);
     effectLevelPin.addEventListener('mousedown', window.pinMoving.onPinMoveChangeEffect);
     hashtag.addEventListener('input', window.validationHashtag.onHashtagValidationInput);
+    imageUploadPreview.style.transform = 'scale(' + window.pictureEffects.Scale.INITIAL * 0.01 + ')';
+    scaleControlValue.value = window.pictureEffects.Scale.INITIAL + '%';
   };
 
   var closeUploadFile = function () {

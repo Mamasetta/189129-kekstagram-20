@@ -48,6 +48,7 @@
   };
 
   var onHashtagValidationInput = function (evt) {
+    hashtag.style.outline = '2px solid red';
     hashtag.setCustomValidity(validateHashtag(evt.target.value));
     hashtag.reportValidity();
   };
