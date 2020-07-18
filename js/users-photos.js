@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var photos = window.data.generatePhotos();
-
   var pictureTemplate = document
     .querySelector('#picture')
     .content
@@ -21,7 +19,7 @@
 
   var picturesElement = document.querySelector('.pictures');
 
-  var renderPictures = function () {
+  var renderPictures = function (photos) {
     var fragment = document.createDocumentFragment();
 
     photos.forEach(function (photo, index) {
@@ -32,7 +30,6 @@
   };
 
   window.usersPhotos = {
-    photos: photos,
     renderPictures: renderPictures
   };
 })();

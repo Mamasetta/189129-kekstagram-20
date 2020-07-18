@@ -34,7 +34,7 @@
         effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift.x) + 'px';
         effectLevelDepth.style.width = (effectLevelPin.offsetLeft - shift.x) + 'px';
       }
-      window.pictureEffects.onSaturationChange(moveEvt);
+      window.pictureEffects.onSaturationChange();
     };
 
     var onMouseUp = function (upEvt) {
