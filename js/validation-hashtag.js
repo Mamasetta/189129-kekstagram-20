@@ -48,9 +48,13 @@
   };
 
   var onHashtagValidationInput = function (evt) {
-    hashtag.style.outline = '2px solid red';
     hashtag.setCustomValidity(validateHashtag(evt.target.value));
     hashtag.reportValidity();
+    if (validateHashtag(evt.target.value) !== '' && hashtag.value !== '') {
+      hashtag.classList.add('hashtags-error');
+    } else {
+      hashtag.classList.remove('hashtags-error');
+    }
   };
 
   window.validationHashtag = {

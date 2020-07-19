@@ -22,12 +22,18 @@
     var onCloseSuccessMessage = function () {
       successMessage.remove();
       document.removeEventListener('keydown', onCloseSuccessMessageEsc);
-      document.removeEventListener('click', onCloseSuccessMessage);
+      successMessage.removeEventListener('click', onCloseSuccessMessage);
       successMessageButton.removeEventListener('click', onCloseSuccessMessage);
     };
 
     document.addEventListener('keydown', onCloseSuccessMessageEsc);
-    document.addEventListener('click', onCloseSuccessMessage);
+
+    successMessage.addEventListener('click', function (evt) {
+      if (!evt.target.classList.contains('success__inner')) {
+        onCloseSuccessMessage();
+      }
+    });
+
     successMessageButton.addEventListener('click', onCloseSuccessMessage);
     main.appendChild(successMessage);
   };
@@ -49,13 +55,19 @@
     var onCloseErrorMessage = function () {
       errorMessage.remove();
       document.removeEventListener('keydown', onCloseErrorMessageEsc);
-      document.removeEventListener('click', onCloseErrorMessage);
+      errorMessage.removeEventListener('click', onCloseErrorMessage);
       errorMessageButton.removeEventListener('click', onCloseErrorMessage);
     };
 
     errorMessage.style.zIndex = ERROR_MESSAGE_Z_INDEX;
     document.addEventListener('keydown', onCloseErrorMessageEsc);
-    document.addEventListener('click', onCloseErrorMessage);
+
+    errorMessage.addEventListener('click', function (evt) {
+      if (!evt.target.classList.contains('error__inner')) {
+        onCloseErrorMessage();
+      }
+    });
+
     errorMessageButton.addEventListener('click', onCloseErrorMessage);
     main.appendChild(errorMessage);
   };
