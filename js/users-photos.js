@@ -29,7 +29,16 @@
     picturesElement.appendChild(fragment);
   };
 
+  var removePictures = function () {
+    var pictures = picturesElement.querySelectorAll('.picture');
+
+    pictures.forEach(function (picture) {
+      picture.remove();
+    });
+  };
+
   window.usersPhotos = {
-    renderPictures: renderPictures
+    renderPictures: renderPictures,
+    removePictures: removePictures
   };
 })();
