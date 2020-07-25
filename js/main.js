@@ -4,8 +4,7 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var picturesElement = document.querySelector('.pictures');
-  var bigPicture = document.querySelector('.big-picture');
-  var bigPictureCansel = bigPicture.querySelector('.big-picture__cancel');
+  var bigPictureCansel = document.querySelector('.big-picture__cancel');
   var imageUploadForm = document.querySelector('.img-upload__form');
   var imageUploadInput = document.querySelector('.img-upload__input');
   var imageUploadPreview = document.querySelector('.img-upload__preview img');
