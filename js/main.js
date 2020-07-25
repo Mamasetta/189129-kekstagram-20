@@ -9,7 +9,7 @@
   var imageUploadForm = document.querySelector('.img-upload__form');
   var imageUploadInput = document.querySelector('.img-upload__input');
   var imageUploadPreview = document.querySelector('.img-upload__preview img');
-  var effectsPreview = document.querySelector('.effects__preview');
+  var effectsPreviews = document.querySelectorAll('.effects__preview');
   var uploadFile = document.querySelector('#upload-file');
   var uploadCancel = document.querySelector('#upload-cancel');
   var uploadForm = document.querySelector('#upload-select-image');
@@ -17,7 +17,9 @@
   var imageFiltersButtons = imageFilter.querySelectorAll('.img-filters__button');
 
   window.backend.load(function (photos) {
-    window.usersPhotos.renderPictures(photos);
+    var copyPhotos = photos.slice();
+
+    window.usersPhotos.renderPictures(copyPhotos);
 
     var selectSortingButton = function (targetButton) {
       imageFiltersButtons.forEach(function (button) {
@@ -32,21 +34,22 @@
       if (evt.target.classList.contains('img-filters__button')) {
         selectSortingButton(evt.target);
         window.usersPhotos.removePictures();
-        window.usersPhotos.renderPictures(window.sorting.filterPhotos(photos, evt.target));
+        copyPhotos = window.sorting.filterPhotos(photos, evt.target);
+        window.usersPhotos.renderPictures(copyPhotos);
       }
     };
 
     picturesElement.addEventListener('click', function (evt) {
       if (evt.target.classList.contains('picture__img')) {
         evt.preventDefault();
-        window.bigPicture.openUsersPicture(photos[Number(evt.target.closest('.picture').dataset.id)]);
+        window.bigPicture.openUsersPicture(copyPhotos[Number(evt.target.closest('.picture').dataset.id)]);
       }
     });
 
     picturesElement.addEventListener('keydown', function (evt) {
       if (evt.key === window.utils.Key.ENTER && evt.target.classList.contains('picture')) {
         evt.preventDefault();
-        window.bigPicture.openUsersPicture(photos[Number(evt.target.dataset.id)]);
+        window.bigPicture.openUsersPicture(copyPhotos[Number(evt.target.dataset.id)]);
       }
     });
 
@@ -75,7 +78,9 @@
 
       reader.addEventListener('load', function () {
         imageUploadPreview.src = reader.result;
-        effectsPreview.style.backgroundImage = 'url(' + reader.result + ')';
+        effectsPreviews.forEach(function (effectsPreview) {
+          effectsPreview.style.backgroundImage = 'url(' + reader.result + ')';
+        });
       });
 
       reader.readAsDataURL(file);
