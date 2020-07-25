@@ -1,7 +1,13 @@
 'use strict';
 
 (function () {
-  var randomSorting = function (data) {
+  var Filter = {
+    DEFAULT: 'filter-default',
+    RANDOM: 'filter-random',
+    DISCUSSED: 'filter-discussed'
+  };
+
+  var sortRandom = function (data) {
     return data.sort(function () {
       return window.utils.getRandomInteger(-1, 1);
     }).slice(0, 10);
@@ -17,13 +23,13 @@
     var copyPhotos = photos.slice();
 
     switch (filter.id) {
-      case 'filter-default':
+      case Filter.DEFAULT:
         return copyPhotos;
 
-      case 'filter-random':
-        return randomSorting(copyPhotos);
+      case Filter.RANDOM:
+        return sortRandom(copyPhotos);
 
-      case 'filter-discussed':
+      case Filter.DISCUSSED:
         return sortByComments(copyPhotos);
     }
 

@@ -1,10 +1,12 @@
 'use strict';
 
 (function () {
-  var imageUploadOverlay = document.querySelector('.img-upload__overlay');
-  var hashtag = imageUploadOverlay.querySelector('.text__hashtags');
   var HASHTAGS_MAX = 5;
   var HASHTAG_MAX_LENGTH = 20;
+
+  var imageUploadOverlay = document.querySelector('.img-upload__overlay');
+  var hashtag = imageUploadOverlay.querySelector('.text__hashtags');
+
   var hashtagReg = /^#[a-zа-яёA-ZА-ЯЁ0-9]*$/;
 
   var validateHashtag = function (value) {

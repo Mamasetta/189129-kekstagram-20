@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var DEFAULT_VALUE = 1;
+
   var imageUploadOverlay = document.querySelector('.img-upload__overlay');
   var imageUploadScale = imageUploadOverlay.querySelector('.img-upload__scale');
   var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
@@ -8,8 +10,6 @@
   var imageUploadEffectLevel = imageUploadOverlay.querySelector('.img-upload__effect-level');
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelLine = imageUploadOverlay.querySelector('.effect-level__line');
-
-  var DEFAULT_VALUE = 1;
 
   var Scale = {
     STEP: 25,
