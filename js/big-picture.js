@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
-  var COMMENTS_SHOW_COUNT_ON_START = 5;
-  var COMMENTS_SHOW_COUNT_BY_BUTTON = 5;
+  var CommentsShowCount = {
+    ON_START: 5,
+    BY_BUTTON: 5
+  };
 
   var bigPicture = document.querySelector('.big-picture');
   var commentsElement = bigPicture.querySelector('.social__comments');
@@ -28,15 +30,15 @@
     likesCount.textContent = photo.likes;
     commentsCount.textContent = photo.comments.length;
 
-    var showingCommentsCount = COMMENTS_SHOW_COUNT_ON_START;
+    var showingCommentsCount = CommentsShowCount.ON_START;
 
     window.usersComments.renderComments(photo.comments);
 
-    if (photo.comments.length < COMMENTS_SHOW_COUNT_ON_START) {
+    if (photo.comments.length < CommentsShowCount.ON_START) {
       commentsCountCurrent.textContent = photo.comments.length;
       commentsLoader.classList.add('hidden');
     } else {
-      commentsCountCurrent.textContent = COMMENTS_SHOW_COUNT_ON_START;
+      commentsCountCurrent.textContent = CommentsShowCount.ON_START;
       commentsLoader.classList.remove('hidden');
     }
 
@@ -45,7 +47,7 @@
 
     onLoadMoreButtonClick = function () {
       var prevCommentsCount = showingCommentsCount;
-      showingCommentsCount = showingCommentsCount + COMMENTS_SHOW_COUNT_BY_BUTTON;
+      showingCommentsCount = showingCommentsCount + CommentsShowCount.BY_BUTTON;
 
       window.usersComments.renderComments(photo.comments.slice(prevCommentsCount, showingCommentsCount));
 
