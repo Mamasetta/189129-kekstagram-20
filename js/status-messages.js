@@ -2,6 +2,7 @@
 
 (function () {
   var ERROR_MESSAGE_Z_INDEX = 100;
+
   var main = document.querySelector('main');
 
   var successMessageTemplate = document

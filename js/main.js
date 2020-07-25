@@ -14,18 +14,18 @@
   window.backend.load(function (photos) {
     window.usersPhotos.renderPictures(photos);
 
-    var selectedButton = function (targetButton) {
+    var selectSortingButton = function (targetButton) {
       imageFiltersButtons.forEach(function (button) {
         button.classList.remove('img-filters__button--active');
       });
       targetButton.classList.add('img-filters__button--active');
     };
 
-    var sortingPhotos = function (evt) {
+    var onSortingButtonClick = function (evt) {
       evt.preventDefault();
 
       if (evt.target.classList.contains('img-filters__button')) {
-        selectedButton(evt.target);
+        selectSortingButton(evt.target);
         window.usersPhotos.removePictures();
         window.usersPhotos.renderPictures(window.sorting.filterPhotos(photos, evt.target));
       }
@@ -52,7 +52,7 @@
 
     imageFilter.classList.remove('img-filters--inactive');
 
-    imageFilter.addEventListener('click', window.utils.debounce(sortingPhotos));
+    imageFilter.addEventListener('click', window.utils.debounce(onSortingButtonClick));
   }, function () {});
 
   uploadFile.addEventListener('change', function (evt) {

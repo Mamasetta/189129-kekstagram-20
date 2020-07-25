@@ -30,9 +30,7 @@
   };
 
   var removePictures = function () {
-    var pictures = picturesElement.querySelectorAll('.picture');
-
-    pictures.forEach(function (picture) {
+    picturesElement.querySelectorAll('.picture').forEach(function (picture) {
       picture.remove();
     });
   };
