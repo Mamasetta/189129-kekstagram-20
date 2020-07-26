@@ -51,11 +51,9 @@
 
       window.usersComments.renderComments(photo.comments.slice(prevCommentsCount, showingCommentsCount));
 
-      var currentCommentsShow = showingCommentsCount <= photo.comments.length
+      commentsCountCurrent.textContent = showingCommentsCount <= photo.comments.length
         ? showingCommentsCount
         : photo.comments.length;
-
-      commentsCountCurrent.textContent = currentCommentsShow;
 
       if (showingCommentsCount >= photo.comments.length) {
         commentsLoader.classList.add('hidden');

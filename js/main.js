@@ -4,7 +4,7 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var picturesElement = document.querySelector('.pictures');
-  var bigPictureCansel = document.querySelector('.big-picture__cancel');
+  var bigPictureCancel = document.querySelector('.big-picture__cancel');
   var imageUploadForm = document.querySelector('.img-upload__form');
   var imageUploadInput = document.querySelector('.img-upload__input');
   var imageUploadPreview = document.querySelector('.img-upload__preview img');
@@ -52,7 +52,7 @@
       }
     });
 
-    bigPictureCansel.addEventListener('click', function (evt) {
+    bigPictureCancel.addEventListener('click', function (evt) {
       evt.preventDefault();
       window.bigPicture.closeUsersPicture();
     });
